@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Build an island explorer game using JavaScript classes." />
+  <title>Island Explorer Game</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="docs.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Island Explorer Game</h1>
+</header>
+<h3 id="island-class">Island Class</h3>
+<h4 id="description">Description</h4>
+<p>The <code>Island</code> class represents an island in the game. It
+handles the creation and expansion of the island from a starting
+point.</p>
+<h4 id="properties">Properties</h4>
+<ul>
+<li><code>startRow</code>: The starting row of the island.</li>
+<li><code>startCol</code>: The starting column of the island.</li>
+<li><code>maxSize</code>: The maximum size of the island.</li>
+<li><code>grid</code>: The game grid where the island is placed.</li>
+<li><code>cells</code>: An array of cells that make up the island.</li>
+</ul>
+<h4 id="methods">Methods</h4>
+<ul>
+<li><code>createIsland()</code>: Expands the island from the starting
+point to a maximum size using a flood-fill algorithm.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Island {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(startRow<span class="op">,</span> startCol<span class="op">,</span> maxSize<span class="op">,</span> grid) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">cells</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">startRow</span> <span class="op">=</span> startRow<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">startCol</span> <span class="op">=</span> startCol<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">maxSize</span> <span class="op">=</span> maxSize<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">grid</span> <span class="op">=</span> grid<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">createIsland</span>()<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">createIsland</span>() {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> directions <span class="op">=</span> [</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            { <span class="dt">i</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">,</span> { <span class="dt">i</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> { <span class="dt">i</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span> }<span class="op">,</span> { <span class="dt">i</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="dv">0</span> }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> cellsToExpand <span class="op">=</span> [{ <span class="dt">i</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">startRow</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">startCol</span> }]<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">grid</span>[<span class="kw">this</span><span class="op">.</span><span class="at">startRow</span>][<span class="kw">this</span><span class="op">.</span><span class="at">startCol</span>] <span class="op">=</span> <span class="st">&#39;1&#39;</span><span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="fu">push</span>({ <span class="dt">i</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">startRow</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">startCol</span> })<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (cellsToExpand<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="at">length</span> <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">maxSize</span>) {</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> { i<span class="op">,</span> j } <span class="op">=</span> cellsToExpand<span class="op">.</span><span class="fu">shift</span>()<span class="op">;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> (<span class="kw">let</span> dir <span class="kw">of</span> directions) {</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> newRow <span class="op">=</span> i <span class="op">+</span> dir<span class="op">.</span><span class="at">i</span><span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> newCol <span class="op">=</span> j <span class="op">+</span> dir<span class="op">.</span><span class="at">j</span><span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (newRow <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> newRow <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">grid</span><span class="op">.</span><span class="at">length</span> <span class="op">&amp;&amp;</span> newCol <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> newCol <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">grid</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">length</span> <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">grid</span>[newRow][newCol] <span class="op">===</span> <span class="st">&#39;0&#39;</span>) {</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">this</span><span class="op">.</span><span class="at">grid</span>[newRow][newCol] <span class="op">=</span> <span class="st">&#39;1&#39;</span><span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">this</span><span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="fu">push</span>({ <span class="dt">i</span><span class="op">:</span> newRow<span class="op">,</span> <span class="dt">j</span><span class="op">:</span> newCol })<span class="op">;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                    cellsToExpand<span class="op">.</span><span class="fu">push</span>({ <span class="dt">i</span><span class="op">:</span> newRow<span class="op">,</span> <span class="dt">j</span><span class="op">:</span> newCol })<span class="op">;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="at">length</span> <span class="op">&gt;=</span> <span class="kw">this</span><span class="op">.</span><span class="at">maxSize</span>) <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="player-class">Player Class</h3>
+<h4 id="description-1">Description</h4>
+<p>The <code>Player</code> class represents the player in the game. It
+handles the player’s position and movement.</p>
+<h4 id="properties-1">Properties</h4>
+<ul>
+<li><code>position</code>: The current position of the player.</li>
+<li><code>hasBoat</code>: A boolean indicating if the player has the
+boat.</li>
+</ul>
+<h4 id="methods-1">Methods</h4>
+<ul>
+<li><code>placeRandomly(island)</code>: Places the player randomly on a
+given island.</li>
+<li><code>move(direction, grid)</code>: Moves the player in the
+specified direction if the move is valid.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Player {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">position</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">hasBoat</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">placeRandomly</span>(island) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> randomCell <span class="op">=</span> island<span class="op">.</span><span class="at">cells</span>[<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> island<span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="at">length</span>)]<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">position</span> <span class="op">=</span> { <span class="dt">i</span><span class="op">:</span> randomCell<span class="op">.</span><span class="at">i</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> randomCell<span class="op">.</span><span class="at">j</span> }<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">move</span>(direction<span class="op">,</span> grid) {</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> { i<span class="op">,</span> j } <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">position</span><span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> newI <span class="op">=</span> i<span class="op">,</span> newJ <span class="op">=</span> j<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (direction) {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="st">&#39;ArrowUp&#39;</span><span class="op">:</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                newI <span class="op">=</span> i <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="st">&#39;ArrowDown&#39;</span><span class="op">:</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                newI <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="st">&#39;ArrowLeft&#39;</span><span class="op">:</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                newJ <span class="op">=</span> j <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="st">&#39;ArrowRight&#39;</span><span class="op">:</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                newJ <span class="op">=</span> j <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (newI <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> newI <span class="op">&lt;</span> grid<span class="op">.</span><span class="at">length</span> <span class="op">&amp;&amp;</span> newJ <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> newJ <span class="op">&lt;</span> grid[<span class="dv">0</span>]<span class="op">.</span><span class="at">length</span> <span class="op">&amp;&amp;</span> (grid[newI][newJ] <span class="op">===</span> <span class="st">&#39;1&#39;</span> <span class="op">||</span> (<span class="kw">this</span><span class="op">.</span><span class="at">hasBoat</span> <span class="op">&amp;&amp;</span> grid[newI][newJ] <span class="op">===</span> <span class="st">&#39;0&#39;</span>))) {</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="at">position</span> <span class="op">=</span> { <span class="dt">i</span><span class="op">:</span> newI<span class="op">,</span> <span class="dt">j</span><span class="op">:</span> newJ }<span class="op">;</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="item-class">Item Class</h3>
+<h4 id="description-2">Description</h4>
+<p>The <code>Item</code> class represents an item in the game, such as a
+boat or treasure. It handles the item’s properties and position.</p>
+<h4 id="properties-2">Properties</h4>
+<ul>
+<li><code>name</code>: The name of the item.</li>
+<li><code>emoji</code>: The emoji representing the item.</li>
+<li><code>position</code>: The position of the item on the grid.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Item {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>({ name<span class="op">,</span> emoji<span class="op">,</span> position <span class="op">=</span> <span class="kw">null</span> }) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">emoji</span> <span class="op">=</span> emoji<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">position</span> <span class="op">=</span> position<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="game-class">Game Class</h3>
+<h4 id="description-3">Description</h4>
+<p>The <code>Game</code> class represents the game itself. It handles
+the game grid, player, items, enemies, and islands.</p>
+<h4 id="properties-3">Properties</h4>
+<ul>
+<li><code>rows</code>: The number of rows in the game grid.</li>
+<li><code>cols</code>: The number of columns in the game grid.</li>
+<li><code>islandCount</code>: The number of islands to generate.</li>
+<li><code>maxIslandSize</code>: The maximum size of each island.</li>
+<li><code>gridData</code>: The game grid.</li>
+<li><code>player</code>: The player object.</li>
+<li><code>items</code>: An array of items in the game.</li>
+<li><code>enemies</code>: An array of enemy positions.</li>
+<li><code>islands</code>: An array of islands in the game.</li>
+<li><code>enemyMoveInterval</code>: The interval for moving
+enemies.</li>
+</ul>
+<h4 id="methods-2">Methods</h4>
+<ul>
+<li><code>generateRandomIslandMap()</code>: Generates a random island
+map.</li>
+<li><code>createIsland()</code>: Creates an island and adds it to the
+game grid.</li>
+<li><code>placePlayer()</code>: Places the player randomly on one of the
+islands.</li>
+<li><code>placeBoatAndItems()</code>: Places the boat on the player’s
+island and treasures on random islands.</li>
+<li><code>placeEnemies(count)</code>: Places a specified number of
+enemies on the game grid.</li>
+<li><code>drawGrid()</code>: Draws the game grid with all elements
+(player, items, enemies).</li>
+<li><code>start()</code>: Starts the game by initializing the grid and
+elements and setting up event listeners.</li>
+<li><code>handleKeyPress(event)</code>: Handles player movement based on
+key press events.</li>
+<li><code>moveEnemies()</code>: Moves enemies randomly on the grid.</li>
+<li><code>checkForBoat()</code>: Checks if the player has collected the
+boat.</li>
+<li><code>collectTreasure()</code>: Checks if the player has collected
+all treasures.</li>
+<li><code>checkForGameOver()</code>: Checks if the game is over (player
+caught by an enemy).</li>
+<li><code>endGame()</code>: Ends the game by clearing intervals and
+event listeners.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Game {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>(rows<span class="op">,</span> cols<span class="op">,</span> islandCount<span class="op">,</span> maxIslandSize) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">rows</span> <span class="op">=</span> rows<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">cols</span> <span class="op">=</span> cols<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">islandCount</span> <span class="op">=</span> islandCount<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">maxIslandSize</span> <span class="op">=</span> maxIslandSize<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">gridData</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">player</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">Player</span>()<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">items</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">enemies</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">islands</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">enemyMoveInterval</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">generateRandomIslandMap</span>() {</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">gridData</span> <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">rows</span> }<span class="op">,</span> () <span class="kw">=&gt;</span> <span class="bu">Array</span>(<span class="kw">this</span><span class="op">.</span><span class="at">cols</span>)<span class="op">.</span><span class="fu">fill</span>(<span class="st">&#39;0&#39;</span>))<span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">islands</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">islandCount</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="fu">createIsland</span>()<span class="op">;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">createIsland</span>() {</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> startRow <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">rows</span>)<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> startCol <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">cols</span>)<span class="op">;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (<span class="kw">this</span><span class="op">.</span><span class="at">gridData</span>[startRow][startCol] <span class="op">===</span> <span class="st">&#39;1&#39;</span>) {</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            startRow <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">rows</span>)<span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>            startCol <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">cols</span>)<span class="op">;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> island <span class="op">=</span> <span class="kw">new</span> <span class="fu">Island</span>(startRow<span class="op">,</span> startCol<span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">maxIslandSize</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">gridData</span>)<span class="op">;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">islands</span><span class="op">.</span><span class="fu">push</span>(island)<span class="op">;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">placePlayer</span>() {</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> randomIsland <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">islands</span>[<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">islands</span><span class="op">.</span><span class="at">length</span>)]<span class="op">;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="fu">placeRandomly</span>(randomIsland)<span class="op">;</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">placeBoatAndItems</span>() {</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Ensure the boat is on the player&#39;s island</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> playerIsland <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">islands</span><span class="op">.</span><span class="fu">find</span>(island <span class="kw">=&gt;</span> island<span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="fu">some</span>(cell <span class="kw">=&gt;</span> cell<span class="op">.</span><span class="at">i</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> cell<span class="op">.</span><span class="at">j</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>))<span class="op">;</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> boatPlaced <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (<span class="op">!</span>boatPlaced) {</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> randomCell <span class="op">=</span> playerIsland<span class="op">.</span><span class="at">cells</span>[<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> playerIsland<span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="at">length</span>)]<span class="op">;</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (<span class="op">!</span>(randomCell<span class="op">.</span><span class="at">i</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> randomCell<span class="op">.</span><span class="at">j</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>)) {</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                <span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Item</span>({ <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;boat&#39;</span><span class="op">,</span> <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;⛵&#39;</span><span class="op">,</span> <span class="dt">position</span><span class="op">:</span> { <span class="dt">i</span><span class="op">:</span> randomCell<span class="op">.</span><span class="at">i</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> randomCell<span class="op">.</span><span class="at">j</span> } }))<span class="op">;</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                boatPlaced <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Place treasures on random islands</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> t <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> t <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> t<span class="op">++</span>) {</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>            <span class="kw">let</span> placed <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> (<span class="op">!</span>placed) {</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> randomIsland <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">islands</span>[<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">islands</span><span class="op">.</span><span class="at">length</span>)]<span class="op">;</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> randomCell <span class="op">=</span> randomIsland<span class="op">.</span><span class="at">cells</span>[<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> randomIsland<span class="op">.</span><span class="at">cells</span><span class="op">.</span><span class="at">length</span>)]<span class="op">;</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (<span class="op">!</span>(randomCell<span class="op">.</span><span class="at">i</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> randomCell<span class="op">.</span><span class="at">j</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">some</span>(item <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">===</span> randomCell<span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span> <span class="op">===</span> randomCell<span class="op">.</span><span class="at">j</span>)) {</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Item</span>({ <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;treasure&#39;</span><span class="op">,</span> <span class="dt">emoji</span><span class="op">:</span> <span class="st">&#39;💎&#39;</span><span class="op">,</span> <span class="dt">position</span><span class="op">:</span> { <span class="dt">i</span><span class="op">:</span> randomCell<span class="op">.</span><span class="at">i</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> randomCell<span class="op">.</span><span class="at">j</span> } }))<span class="op">;</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>                    placed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">placeEnemies</span>(count) {</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">enemies</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> e <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> e <span class="op">&lt;</span> count<span class="op">;</span> e<span class="op">++</span>) {</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>            <span class="kw">let</span> placed <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> (<span class="op">!</span>placed) {</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> i <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">gridData</span><span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> j <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="kw">this</span><span class="op">.</span><span class="at">gridData</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">gridData</span>[i][j]</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a> <span class="op">===</span> <span class="st">&#39;1&#39;</span> <span class="op">&amp;&amp;</span> (i <span class="op">!==</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">||</span> j <span class="op">!==</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>)) {</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">this</span><span class="op">.</span><span class="at">enemies</span><span class="op">.</span><span class="fu">push</span>({ i<span class="op">,</span> j })<span class="op">;</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>                    placed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drawGrid</span>() {</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> gridElement <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;grid&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>        gridElement<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">gridTemplateRows</span> <span class="op">=</span> <span class="vs">`repeat(</span><span class="sc">${</span><span class="kw">this</span><span class="op">.</span><span class="at">rows</span><span class="sc">}</span><span class="vs">, 20px)`</span><span class="op">;</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>        gridElement<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">gridTemplateColumns</span> <span class="op">=</span> <span class="vs">`repeat(</span><span class="sc">${</span><span class="kw">this</span><span class="op">.</span><span class="at">cols</span><span class="sc">}</span><span class="vs">, 20px)`</span><span class="op">;</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>        gridElement<span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="st">&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">rows</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">cols</span><span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> cell <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">createElement</span>(<span class="st">&#39;div&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>                cell<span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">add</span>(<span class="st">&#39;cell&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>                cell<span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">gridData</span>[i][j] <span class="op">===</span> <span class="st">&#39;1&#39;</span> <span class="op">?</span> <span class="st">&#39;land&#39;</span> <span class="op">:</span> <span class="st">&#39;water&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (i <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> j <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>) {</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>                    cell<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="st">&#39;😊&#39;</span><span class="op">;</span> <span class="co">// Player emoji</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>                } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">some</span>(item <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">===</span> i <span class="op">&amp;&amp;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span> <span class="op">===</span> j)) {</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">const</span> item <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">find</span>(item <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">===</span> i <span class="op">&amp;&amp;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span> <span class="op">===</span> j)<span class="op">;</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>                    cell<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> item<span class="op">.</span><span class="at">emoji</span><span class="op">;</span> <span class="co">// Item emoji</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>                } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">enemies</span><span class="op">.</span><span class="fu">some</span>(e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="at">i</span> <span class="op">===</span> i <span class="op">&amp;&amp;</span> e<span class="op">.</span><span class="at">j</span> <span class="op">===</span> j)) {</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>                    cell<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="st">&#39;🧟&#39;</span><span class="op">;</span> <span class="co">// Enemy emoji</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>                gridElement<span class="op">.</span><span class="fu">appendChild</span>(cell)<span class="op">;</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">start</span>() {</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">generateRandomIslandMap</span>()<span class="op">;</span></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">placePlayer</span>()<span class="op">;</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">placeBoatAndItems</span>()<span class="op">;</span></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">placeEnemies</span>(<span class="dv">3</span>)<span class="op">;</span> <span class="co">// Place 3 enemies</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">drawGrid</span>()<span class="op">;</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>        <span class="bu">document</span><span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;keydown&#39;</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">handleKeyPress</span><span class="op">.</span><span class="fu">bind</span>(<span class="kw">this</span>))<span class="op">;</span></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">enemyMoveInterval</span> <span class="op">=</span> <span class="pp">setInterval</span>(<span class="kw">this</span><span class="op">.</span><span class="at">moveEnemies</span><span class="op">.</span><span class="fu">bind</span>(<span class="kw">this</span>)<span class="op">,</span> <span class="dv">1000</span>)<span class="op">;</span> <span class="co">// Move enemies every second</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>    <span class="fu">handleKeyPress</span>(<span class="bu">event</span>) {</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="fu">move</span>(<span class="bu">event</span><span class="op">.</span><span class="fu">key</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">gridData</span>)<span class="op">;</span></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">checkForBoat</span>()<span class="op">;</span></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">collectTreasure</span>()<span class="op">;</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">checkForGameOver</span>()<span class="op">;</span></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">drawGrid</span>()<span class="op">;</span></span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">moveEnemies</span>() {</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> enemy <span class="kw">of</span> <span class="kw">this</span><span class="op">.</span><span class="at">enemies</span>) {</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> directions <span class="op">=</span> [</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>                { <span class="dt">i</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// up</span></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>                { <span class="dt">i</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> <span class="co">// down</span></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>                { <span class="dt">i</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span> }<span class="op">,</span> <span class="co">// left</span></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>                { <span class="dt">i</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">j</span><span class="op">:</span> <span class="dv">1</span> } <span class="co">// right</span></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>            ]<span class="op">;</span></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> validMoves <span class="op">=</span> directions<span class="op">.</span><span class="fu">filter</span>(dir <span class="kw">=&gt;</span> {</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> newI <span class="op">=</span> enemy<span class="op">.</span><span class="at">i</span> <span class="op">+</span> dir<span class="op">.</span><span class="at">i</span><span class="op">;</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> newJ <span class="op">=</span> enemy<span class="op">.</span><span class="at">j</span> <span class="op">+</span> dir<span class="op">.</span><span class="at">j</span><span class="op">;</span></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> newI <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> newI <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">rows</span> <span class="op">&amp;&amp;</span> newJ <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> newJ <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">cols</span> <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">gridData</span>[newI][newJ] <span class="op">===</span> <span class="st">&#39;1&#39;</span><span class="op">;</span></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>            })<span class="op">;</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (validMoves<span class="op">.</span><span class="at">length</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> move <span class="op">=</span> validMoves[<span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> validMoves<span class="op">.</span><span class="at">length</span>)]<span class="op">;</span></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>                enemy<span class="op">.</span><span class="at">i</span> <span class="op">+=</span> move<span class="op">.</span><span class="at">i</span><span class="op">;</span></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>                enemy<span class="op">.</span><span class="at">j</span> <span class="op">+=</span> move<span class="op">.</span><span class="at">j</span><span class="op">;</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">checkForGameOver</span>()<span class="op">;</span></span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">drawGrid</span>()<span class="op">;</span></span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>    <span class="fu">checkForBoat</span>() {</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> boat <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">find</span>(item <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">&#39;boat&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (boat <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">===</span> boat<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span> <span class="op">===</span> boat<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>) {</span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">hasBoat</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="at">items</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">filter</span>(item <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">name</span> <span class="op">!==</span> <span class="st">&#39;boat&#39;</span>)<span class="op">;</span> <span class="co">// Remove the boat from the grid</span></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&#39;You have collected the boat! Now you can move over water.&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collectTreasure</span>() {</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">items</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">filter</span>(item <span class="kw">=&gt;</span> <span class="op">!</span>(item<span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">&#39;treasure&#39;</span> <span class="op">&amp;&amp;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> item<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>))<span class="op">;</span></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="op">!</span><span class="kw">this</span><span class="op">.</span><span class="at">items</span><span class="op">.</span><span class="fu">some</span>(item <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">&#39;treasure&#39;</span>)) {</span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&#39;You collected all the treasures! You win!&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="fu">endGame</span>()<span class="op">;</span></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>    <span class="fu">checkForGameOver</span>() {</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">enemies</span><span class="op">.</span><span class="fu">some</span>(e <span class="kw">=&gt;</span> e<span class="op">.</span><span class="at">i</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">i</span> <span class="op">&amp;&amp;</span> e<span class="op">.</span><span class="at">j</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="at">j</span>)) {</span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>            <span class="fu">alert</span>(<span class="st">&#39;Game Over! An enemy caught you.&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="fu">endGame</span>()<span class="op">;</span></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>    <span class="fu">endGame</span>() {</span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>        <span class="pp">clearInterval</span>(<span class="kw">this</span><span class="op">.</span><span class="at">enemyMoveInterval</span>)<span class="op">;</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>        <span class="bu">document</span><span class="op">.</span><span class="fu">removeEventListener</span>(<span class="st">&#39;keydown&#39;</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">handleKeyPress</span><span class="op">.</span><span class="fu">bind</span>(<span class="kw">this</span>))<span class="op">;</span></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="html-structure">HTML Structure</h3>
+<p>Ensure your HTML includes the necessary elements and links to the
+JavaScript file.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;en&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;title&gt;</span>Island Explorer Game<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;style&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="pp">#grid</span> {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            <span class="kw">display</span>: <span class="dv">grid</span><span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">gap</span>: <span class="dv">2</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">.cell</span> {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            <span class="kw">width</span>: <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="kw">height</span>: <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="kw">border</span>: <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#ccc</span><span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">.land</span> {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            <span class="kw">background-color</span>: <span class="cn">green</span><span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">.water</span> {</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>            <span class="kw">background-color</span>: <span class="cn">blue</span><span class="op">;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">.treasure</span> {</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="kw">background-color</span>: <span class="cn">gold</span><span class="op">;</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/style&gt;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;h1&gt;</span>Island Explorer Game<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;form</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;settingsForm&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;rows&quot;</span><span class="kw">&gt;</span>Height (rows):<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;number&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;rows&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;rows&quot;</span> <span class="er">value</span><span class="ot">=</span><span class="st">&quot;10&quot;</span> <span class="er">min</span><span class="ot">=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;&lt;br&gt;</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;label</span> <span class="er">for</span><span class="ot">=</span><span class="st">&quot;cols&quot;</span><span class="kw">&gt;</span>Width (cols):<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;number&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;cols&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;cols&quot;</span> <span class="er">value</span><span class="ot">=</span><span class="st">&quot;10&quot;</span> <span class="er">min</span><span class="ot">=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;&lt;br&gt;</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;button&quot;</span> <span class="er">onclick</span><span class="ot">=</span><span class="st">&quot;startGame()&quot;</span><span class="kw">&gt;</span>Start Game<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;div</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;grid&quot;</span><span class="kw">&gt;&lt;/div&gt;</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;island_explorer_game.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;script&gt;</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> game<span class="op">;</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="fu">startGame</span>() {</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> rows <span class="op">=</span> <span class="pp">parseInt</span>(<span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;rows&#39;</span>)<span class="op">.</span><span class="at">value</span>)<span class="op">;</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> cols <span class="op">=</span> <span class="pp">parseInt</span>(<span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;cols&#39;</span>)<span class="op">.</span><span class="at">value</span>)<span class="op">;</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>            game <span class="op">=</span> <span class="kw">new</span> <span class="fu">Game</span>(rows<span class="op">,</span> cols<span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span> <span class="co">// 5 islands, max size of 10</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>            game<span class="op">.</span><span class="fu">start</span>()<span class="op">;</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+</body>
+</html>
