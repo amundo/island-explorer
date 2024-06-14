@@ -1,34 +1,44 @@
 body {
   display: grid;
-  grid-template: "header header" auto "controls game" 1fr / 1fr 2fr;
+  grid-template:
+    "header   controls" auto 
+    "game     game"   1fr 
+  / 1fr       2fr;
   header {
     grid-area: header;
   }
 }
-#grid {
+
+island-exploration {
   display: grid;
- }
-.cell {
-  width: 20px;
-  height: 20px;
-  display: grid;
-  place-content: center;
-}
-.land {
-  background-color: green;
-}
-.water {
-  background-color: blue;
-}
-.player {
-  background-color: red;
-}
-.treasure {
-  background-color: gold;
-}
-.boat {
-  /* background-color: brown; */
-}
-.enemy {
-  background-color: black;
+  grid-column: span 2;
+  grid-template-columns: subgrid;
+
+  #grid {
+    display: grid;
+  }
+  .cell {
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-content: center;
+  }
+  .land {
+    background-color: green;
+  }
+  .water {
+    background-color: blue;
+  }
+  .player {
+    background-color: red;
+  }
+  .treasure {
+    background-color: gold;
+  }
+  .boat {
+    /* background-color: brown; */
+  }
+  .enemy {
+    background-color: black;
+  }
 }

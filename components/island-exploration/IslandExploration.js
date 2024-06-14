@@ -4,10 +4,10 @@ import {Island} from '../../modules/Island.js';
 import {Item} from '../../modules/Item.js';
 
 class IslandExploration extends HTMLElement {
-  constructor(rows = 10, cols = 10, islandCount = 3, maxIslandSize = 10) {
+  constructor(size = 22, islandCount = 8, maxIslandSize = 10) {
     super();
-    this.rows = rows
-    this.cols = cols
+    this.rows = size
+    this.cols = size
     this.islandCount = islandCount
     this.maxIslandSize = maxIslandSize
     this.gridData = []
