@@ -5,8 +5,7 @@ class Player {
   }
 
   placeRandomly(island) {
-    const randomCell =
-      island.cells[Math.floor(Math.random() * island.cells.length)]
+    const randomCell = island.cells[Math.floor(Math.random() * island.cells.length)]
     this.position = { i: randomCell.i, j: randomCell.j }
   }
 
