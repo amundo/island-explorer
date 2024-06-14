@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "build": "pandoc -f markdown -t html --section-divs --css island-exploration-docs.css --template=template.html -o island-exploration-docs.html island-exploration-docs.md"
+  }
+}
