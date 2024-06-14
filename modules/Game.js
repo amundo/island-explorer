@@ -2,8 +2,9 @@ import { Player } from "./Player.js"
 import { Item } from "./Item.js"
 import { Island } from "./Island.js"
 
-class Game {
+class Game extends EventTarget {
   constructor(rows = 10, cols = 10, islandCount = 3, maxIslandSize = 20) {
+    super()
     this.rows = rows
     this.cols = cols
     this.islandCount = islandCount
@@ -35,6 +36,7 @@ class Game {
   }
 
   gameOver() {
+    console.log(`game over…`)
     this.dispatchEvent(
       new CustomEvent("game-message", {
         detail: "Game Over! An enemy caught you.",
@@ -258,7 +260,7 @@ class Game {
         e.i === this.player.position.i && e.j === this.player.position.j
       )
     ) {
-      alert("Game Over! An enemy caught you.")
+      this.gameOver("Game Over! An enemy caught you.")
       this.endGame()
     }
   }

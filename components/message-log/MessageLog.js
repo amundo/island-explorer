@@ -19,6 +19,7 @@ class MessageLog extends HTMLElement {
   }
 
   addMessage(text) {
+    console.log(`Adding message: ${text}`)
     let message = {
       text,
       timestamp: new Date(),

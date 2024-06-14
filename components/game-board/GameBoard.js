@@ -6,7 +6,9 @@ class GameBoard extends HTMLElement {
     super()
     this.innerHTML = `
       <message-log></message-log>
-      <main class="game-container"></main>
+      <main class="game-container">
+        <div id="grid"></div>
+      </main>
     `
 
     this.messageLog = this.querySelector("message-log")
