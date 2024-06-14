@@ -461,7 +461,7 @@ file.
 </head>
 <body>
     <h1>Island Explorer Game</h1>
-    <form id="settingsForm">
+    <form id="settings-form">
         <label for="rows">Height (rows):</label>
         <input type="number" id="rows" name="rows" value="10" min="1"><br>
         <label for="cols">Width (cols):</label>
