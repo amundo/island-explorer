@@ -1,1 +1,4 @@
 local/
+.rsync-exclude
+deno.json
+island-exploration.zip

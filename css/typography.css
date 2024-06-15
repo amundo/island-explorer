@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Pirate Scroll';
+  src: url('fonts/Pirate Scroll.otf') format('opentype');
+  /* font-weight: normal;
+  font-style: normal; */
+}
+
+/* Example of how to use the font */
+h1 {
+  font-family: 'Pirate Scroll', sans-serif;
+}

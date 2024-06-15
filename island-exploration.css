@@ -1,21 +1,20 @@
-body {
+@import 'css/typography.css';
+
+island-exploration {
   display: grid;
   grid-template:
     "header   controls" auto 
     "game     game"   1fr 
   / 1fr       2fr;
-  header {
-    grid-area: header;
-  }
-}
 
-island-exploration {
-  display: grid;
-  grid-column: span 2;
-  grid-template-columns: subgrid;
-
-  #grid {
+  .grid {
     display: grid;
+    grid-area: game;
+  }
+
+
+  h1 {
+    font-family: Pirate Scroll;
   }
   .cell {
     width: 20px;

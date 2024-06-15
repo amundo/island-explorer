@@ -4,7 +4,7 @@ import {Island} from '../../modules/Island.js';
 import {Item} from '../../modules/Item.js';
 
 class IslandExploration extends HTMLElement {
-  constructor(size = 22, islandCount = 8, maxIslandSize = 10) {
+  constructor(size = 10, islandCount = 3, maxIslandSize = 8) {
     super();
     this.rows = size
     this.cols = size
@@ -18,11 +18,18 @@ class IslandExploration extends HTMLElement {
     this.enemyMoveInterval = null
   
     this.innerHTML = `
+      <nav class="game-controls">
+        <form class="settings-form">
+          <label for="size">Board size</label>
+          <input type="number" class="size" name="size" value="10"><br>
+          <button type="button" class="start-game">Start Game</button>
+        </form>
+      </nav>
       <aside class="sidebar">
         <message-log></message-log>
       </aside>
       <main class="game-board">
-        <div id="grid"></div>
+        <div class="grid"></div>
       </main>
     `;
 
@@ -38,7 +45,7 @@ class IslandExploration extends HTMLElement {
     this.placePlayer()
     this.placeBoatAndItems()
     this.placeEnemies(3) // Place 3 enemies
-    this.gridElement = this.querySelector('#grid')
+    this.gridElement = this.querySelector('.grid')
     this.drawGrid()
     document.addEventListener("keydown", this.handleKeyPress.bind(this))
     this.enemyMoveInterval = setInterval(this.moveEnemies.bind(this), 1000) // Move enemies every second
@@ -234,7 +241,7 @@ class IslandExploration extends HTMLElement {
       return
     }
 
-    const gridElement = document.getElementById("grid")
+    const gridElement = this.querySelector(".grid")
     gridElement.style.gridTemplateRows = `repeat(${this.rows}, 20px)`
     gridElement.style.gridTemplateColumns = `repeat(${this.cols}, 20px)`
     gridElement.innerHTML = ""
@@ -279,7 +286,13 @@ class IslandExploration extends HTMLElement {
     this.messageLog.addMessage('Game Over! An enemy caught you.');
   }
 
-  // Add other game methods here, replacing alert() calls with messageLog.addMessage()
+  listen(){
+    
+    this.querySelector('.start-game').addEventListener('click', () => {
+      const islandExploration = document.querySelector('island-exploration')
+      islandExploration.start()
+    })
+  }
 }
 
 customElements.define('island-exploration', IslandExploration);
